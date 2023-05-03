@@ -38,11 +38,13 @@ public class UserServiceTest {
         user.setLastName("Stark");
         user.setPassword("123456");
         user.setUserType(UserType.STANDARD);
+        Mockito.verify(restTemplate, Mockito.atLeastOnce());
 
         Mockito.when(restTemplate.getForEntity("https://www.google.com/user", User.class))
                 .thenReturn(new ResponseEntity<>(user, HttpStatus.OK));
 
         User resultUser = userService.getUserFromRemoteServer();
+
 
         Assertions.assertEquals(user.getFirstName(), resultUser.getFirstName());
         Assertions.assertEquals(user.getUserType(), resultUser.getUserType());
